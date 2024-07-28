@@ -1,0 +1,71 @@
+<form class="ui form">
+  <h4 class="ui dividing header">RXJS Form</h4>
+  <div class="field">
+    <div class="two fields">
+      <div class="field">
+        <label>First Name</label>
+        <input
+          type="text"
+          name="shipping[first-name]"
+          placeholder="First Name"
+        />
+      </div>
+      <div class="field">
+        <label>Last Name</label>
+        <input type="text" name="shipping[last-name]" placeholder="Last Name" />
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label>Contact Details</label>
+    <div class="fields">
+      <div class="eight wide field">
+        <label>Email</label>
+        <input type="text" name="email" placeholder="example@example.com" />
+      </div>
+      <div class="eight wide field">
+        <label>Phone Number</label>
+        <input type="text" name="phoneNumber" placeholder="+234 000 000 0000" />
+      </div>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label>Country</label>
+      <select>
+        @for (country of countryNames; track $index) {
+        <option [value]="country">{{ country }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Occupation</label>
+      <select>
+        <option value="frontend">Frontend Developer</option>
+        <option value="backend">Backend Developer</option>
+        <option value="designer">Designer</option>
+        <option value="devops">devops Engineer</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label>Successful</label>
+    <div class="ui radio checkbox">
+      <input type="radio" formControlName="successful" value="true" />
+      <label>True</label>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input
+          type="text"
+          name="fruit"
+          checked=""
+          tabindex="0"
+          class="hidden"
+        />
+        <label>Apples</label>
+      </div>
+    </div>
+  </div>
+  <button class="ui button" tabindex="0">Submit</button>
+</form>
