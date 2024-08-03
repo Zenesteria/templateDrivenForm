@@ -17,13 +17,14 @@ interface Country {
   providedIn: 'root',
 })
 export class CountryService {
-  private countriesList:any = countries;
+  private countriesList: any = countries;
 
   constructor() {}
 
-  getCountryNames(): string[] {
-    return Object.keys(this.countriesList).map(
-      (code) => this.countriesList[code].name
-    );
+  getCountryNames(): { text: string; value: string }[] {
+    return Object.keys(this.countriesList).map((code) => ({
+      text: this.countriesList[code].name,
+      value: this.countriesList[code].name,
+    }));
   }
 }

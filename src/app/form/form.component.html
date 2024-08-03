@@ -1,8 +1,8 @@
-<form #bioform="ngForm" class="ui form" (ngSubmit)="onSubmit(bioform)">
-  <h4 class="ui dividing header">RXJS Form</h4>
-  <div class="field">
-    <div class="two fields">
-      <div class="field">
+<form #bioform="ngForm" (ngSubmit)="onSubmit(bioform)" sui-form>
+  <h1 sui-header>RXJS Form</h1>
+  <div suiFormField>
+    <div suiFormFields suiWidth="two">
+      <div suiFormField>
         <label>First Name</label>
         <input
           type="text"
@@ -40,10 +40,10 @@
       </div>
     </div>
   </div>
-  <div class="field">
+  <div suiFormField>
     <label>Contact Details</label>
     <div class="fields">
-      <div class="eight wide field">
+      <div suiFormField suiWidth="eight">
         <label>Email</label>
         <input
           type="text"
@@ -58,10 +58,12 @@
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           [hidden]="!(!email.valid && email.touched)"
         >
-          <p class="ui pointing basic red label">Please Enter your Email</p>
+          <p sui-label suiPointing="below" suiColour="red">
+            Please Enter your Email
+          </p>
         </div>
       </div>
-      <div class="eight wide field">
+      <div suiFormField suiWidth="eight">
         <label>Phone Number</label>
         <input
           type="text"
@@ -73,7 +75,7 @@
           [(ngModel)]="formDetails.phoneNumber"
         />
         <div [hidden]="!(!pnumber.valid && pnumber.touched)">
-          <p class="ui pointing basic red label">
+          <p sui-label suiPointing="below" suiColour="red">
             Please Enter your Phone Number
           </p>
         </div>
@@ -83,20 +85,25 @@
   <div class="two fields">
     <div class="field">
       <label>Country</label>
-      <select name="country" ngModel [(ngModel)]="formDetails.country">
-        @for (country of countryNames; track $index) {
-        <option [value]="country">{{ country }}</option>
-        }
-      </select>
+      <sui-select
+        name="country"
+        ngModel
+        [(ngModel)]="formDetails.country"
+        suiPlaceholder="Select Country"
+        [suiOptions]="countryNames"
+      >
+      </sui-select>
     </div>
     <div class="field">
       <label>Occupation</label>
-      <select name="occupation" ngModel [(ngModel)]="formDetails.occupation">
-        <option value="Frontend Developer">Frontend Developer</option>
-        <option value="Backend Developer">Backend Developer</option>
-        <option value="Designer">Designer</option>
-        <option value="Devops Engineer">Devops Engineer</option>
-      </select>
+      <sui-select
+        name="occupation"
+        ngModel
+        [(ngModel)]="formDetails.occupation"
+        suiPlaceholder="Select Occupation"
+        [suiOptions]="occupations"
+      >
+      </sui-select>
     </div>
   </div>
   <div class="field">
@@ -132,7 +139,8 @@
     <label>Test</label>
   </div>
   <button
-    [class]="isLoading ? 'ui loading button' : 'ui button'"
+    sui-button
+    [suiLoading]="isLoading"
     tabindex="0"
     type="submit"
     [disabled]="!bioform.valid"

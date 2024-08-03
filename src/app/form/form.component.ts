@@ -10,16 +10,17 @@ import {
 } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
+import { NgxSemanticModule } from 'ngx-semantic';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgxSemanticModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
 export class FormComponent implements OnInit {
-  countryNames: string[] = [];
+  countryNames: { text: string; value: string }[] = [];
   isLoading = false;
   formDetails: formDetails = {
     firstName: '',
@@ -33,6 +34,13 @@ export class FormComponent implements OnInit {
       False: true,
     },
   };
+
+  occupations = [
+    { text: 'Frontend Developer', value: 'Frontend Developer' },
+    { text: 'Backend Developer', value: 'Backend Developer' },
+    { text: 'Designer', value: 'Designer' },
+    { text: 'Devops Engineer', value: 'Devops Engineer' },
+  ];
 
   isEmail(email: string) {
     return /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
