@@ -1,4 +1,4 @@
-<form #bioform="ngForm" (ngSubmit)="onSubmit(bioform)" sui-form>
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" sui-form>
   <h1 sui-header>RXJS Form</h1>
   <div suiFormField>
     <div suiFormFields suiWidth="two">
@@ -8,18 +8,19 @@
           type="text"
           name="firstName"
           placeholder="First Name"
-          ngModel
-          #fname="ngModel"
-          maxlength="30"
-          minlength="3"
-          [(ngModel)]="formDetails.firstName"
+          formControlName="firstName"
           required
         />
-        <div [hidden]="!(!fname.valid && fname.touched)">
+        @if(registrationForm.get('firstName')?.invalid &&
+        registrationForm.get('firstName')?.touched){
+        <div>
+          @if(registrationForm.get('firstName')?.errors?.['required']){
           <p class="ui pointing basic red label">
             Please Enter your First Name
           </p>
+          }
         </div>
+        }
       </div>
       <div class="field">
         <label>Last Name</label>
@@ -27,16 +28,17 @@
           type="text"
           name="lastName"
           placeholder="Last Name"
-          ngModel
+          formControlName="lastName"
           required
-          #lname="ngModel"
-          maxlength="30"
-          minlength="3"
-          [(ngModel)]="formDetails.lastName"
         />
-        <div [hidden]="!(!lname.valid && lname.touched)">
+        @if(registrationForm.get('lastName')?.invalid &&
+        registrationForm.get('lastName')?.touched){
+        <div>
+          @if(registrationForm.get('lastName')?.errors?.['required']){
           <p class="ui pointing basic red label">Please Enter your Last Name</p>
+          }
         </div>
+        }
       </div>
     </div>
   </div>
@@ -48,20 +50,24 @@
         <input
           type="text"
           name="email"
-          #email="ngModel"
           required
           placeholder="example@example.com"
-          [(ngModel)]="formDetails.email"
-          ngModel
+          formControlName="email"
         />
-        <div
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-          [hidden]="!(!email.valid && email.touched)"
-        >
+        @if (registrationForm.get('email')?.invalid &&
+        registrationForm.get('email')?.touched) {
+        <div>
+          @if (registrationForm.get('email')?.errors?.['required']) {
           <p sui-label suiPointing="below" suiColour="red">
             Please Enter your Email
           </p>
+          } @if (registrationForm.get('email')?.errors?.['email']) {
+          <p sui-label suiPointing="below" suiColour="red">
+            Invalid Email Entered
+          </p>
+          }
         </div>
+        }
       </div>
       <div suiFormField suiWidth="eight">
         <label>Phone Number</label>
@@ -69,16 +75,19 @@
           type="text"
           name="phoneNumber"
           placeholder="+234 000 000 0000"
-          ngModel
+          formControlName="phoneNumber"
           required
-          #pnumber="ngModel"
-          [(ngModel)]="formDetails.phoneNumber"
         />
-        <div [hidden]="!(!pnumber.valid && pnumber.touched)">
+        @if (registrationForm.get('phoneNumber')?.invalid &&
+        registrationForm.get('phoneNumber')?.touched) {
+        <div>
+          @if (registrationForm.get('phoneNumber')?.errors?.['required']) {
           <p sui-label suiPointing="below" suiColour="red">
             Please Enter your Phone Number
           </p>
+          }
         </div>
+        }
       </div>
     </div>
   </div>
@@ -87,23 +96,19 @@
       <label>Country</label>
       <sui-select
         name="country"
-        ngModel
-        [(ngModel)]="formDetails.country"
+        formControlName="country"
         suiPlaceholder="Select Country"
         [suiOptions]="countryNames"
-      >
-      </sui-select>
+      />
     </div>
     <div class="field">
       <label>Occupation</label>
       <sui-select
         name="occupation"
-        ngModel
-        [(ngModel)]="formDetails.occupation"
+        formControlName="occupation"
         suiPlaceholder="Select Occupation"
         [suiOptions]="occupations"
-      >
-      </sui-select>
+      />
     </div>
   </div>
   <div class="field">
@@ -114,23 +119,21 @@
         <input
           type="radio"
           name="isSuccessful"
+          formControlName="isSuccessful"
           [value]="true"
           id="true"
           class="ui radio checkbox"
-          ngModel
-          [(ngModel)]="formDetails.isSuccessful.True"
         />
       </div>
       <div class="field">
         <label>False</label>
         <input
           type="radio"
-          [value]="false"
+          [value]="registrationForm.get('isSuccessful')?.value.True"
+          formControlName="isSuccessful"
           name="isSuccessful"
           id="false"
           class="ui radio checkbox"
-          ngModel
-          [(ngModel)]="formDetails.isSuccessful.False"
         />
       </div>
     </div>
@@ -143,7 +146,7 @@
     [suiLoading]="isLoading"
     tabindex="0"
     type="submit"
-    [disabled]="!bioform.valid"
+    [disabled]="registrationForm.invalid"
   >
     Submit
   </button>

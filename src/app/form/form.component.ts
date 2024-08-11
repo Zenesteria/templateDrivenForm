@@ -2,38 +2,39 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { countries, ICountry, TCountries } from 'countries-list';
 import { CountryService } from './form.service';
 import {
-  Form,
-  FormBuilder,
   FormGroup,
-  FormsModule,
-  NgForm,
+  ReactiveFormsModule,
+  FormControl,
+  Validators,
 } from '@angular/forms';
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 import { NgxSemanticModule } from 'ngx-semantic';
+import { PasswordValidator } from './form.validator';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [FormsModule, NgxSemanticModule],
+  imports: [ReactiveFormsModule, NgxSemanticModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
 export class FormComponent implements OnInit {
   countryNames: { text: string; value: string }[] = [];
   isLoading = false;
-  formDetails: formDetails = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    country: 'Nigeria',
-    occupation: 'Frontend Developer',
-    isSuccessful: {
-      True: false,
-      False: true,
-    },
-  };
+  // formDetails: formDetails = {
+  //   firstName: '',
+  //   lastName: '',
+  //   email: '',
+  //   phoneNumber: '',
+  //   country: 'Nigeria',
+  //   occupation: 'Frontend Developer',
+  //   isSuccessful: {
+  //     True: false,
+  //     False: true,
+  //   },
+  // };
+  registrationForm!:FormGroup;
 
   occupations = [
     { text: 'Frontend Developer', value: 'Frontend Developer' },
@@ -62,6 +63,16 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.countryNames = this.countryService.getCountryNames();
+    this.registrationForm = new FormGroup({
+      firstName:new FormControl('',[Validators.required, Validators.min(3)]),
+      lastName:new FormControl('',[Validators.required, Validators.min(3)]),
+      email:new FormControl('',[Validators.required, Validators.email]),
+      password:new FormControl('',[Validators.required,PasswordValidator]),
+      phoneNumber:new FormControl('',[Validators.required]),
+      country:new FormControl('Nigeria',[Validators.required]),
+      occupation:new FormControl('Frontend Developer',[Validators.required]),
+      isSuccessful:new FormControl({True:true, False:false},[Validators.required]),
+    })
   }
 
   load() {
@@ -73,18 +84,17 @@ export class FormComponent implements OnInit {
     });
   }
 
-  async onSubmit(form: NgForm) {
-    console.log(form.value);
+  async onSubmit() {
     this.isLoading = true;
 
     // Success
-    if (form.value.isSuccessful) {
+    if (this.registrationForm.value.isSuccessful && this.registrationForm.valid) {
       await this.load();
       this.notificationService.showSuccess(
         'Form submitted successfully!',
         'Success'
       );
-      console.log('done');
+      console.log(this.registrationForm.value);
       setTimeout(() => {
         this.router.navigate(['/success']);
       }, 5000);

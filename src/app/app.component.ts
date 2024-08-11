@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { FormComponent } from './form/form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSemanticModule } from 'ngx-semantic';
 
 @Component({
@@ -10,8 +10,9 @@ import { NgxSemanticModule } from 'ngx-semantic';
   imports: [
     RouterOutlet,
     FormComponent,
-    FormsModule,
+    // FormsModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
