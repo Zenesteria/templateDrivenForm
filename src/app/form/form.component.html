@@ -100,7 +100,6 @@
       placeholder="****"
       formControlName="password"
     />
-    <p>error {{ registrationForm.get("password")?.errors }}</p>
     @if (registrationForm.get('password')?.invalid &&
     registrationForm.get('password')?.touched) {
     <div>
