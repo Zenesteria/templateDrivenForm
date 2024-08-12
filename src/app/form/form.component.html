@@ -58,11 +58,11 @@
         registrationForm.get('email')?.touched) {
         <div>
           @if (registrationForm.get('email')?.errors?.['required']) {
-          <p sui-label suiPointing="below" suiColour="red">
+          <p sui-label suiPointing="above" suiColour="red">
             Please Enter your Email
           </p>
           } @if (registrationForm.get('email')?.errors?.['email']) {
-          <p sui-label suiPointing="below" suiColour="red">
+          <p sui-label suiPointing="above" suiColour="red">
             Invalid Email Entered
           </p>
           }
@@ -82,7 +82,7 @@
         registrationForm.get('phoneNumber')?.touched) {
         <div>
           @if (registrationForm.get('phoneNumber')?.errors?.['required']) {
-          <p sui-label suiPointing="below" suiColour="red">
+          <p sui-label suiPointing="above" suiColour="red">
             Please Enter your Phone Number
           </p>
           }
@@ -90,6 +90,31 @@
         }
       </div>
     </div>
+  </div>
+  <div suiFormField>
+    <label>Password</label>
+    <input
+      type="password"
+      name="password"
+      required
+      placeholder="****"
+      formControlName="password"
+    />
+    <p>error {{ registrationForm.get("password")?.errors }}</p>
+    @if (registrationForm.get('password')?.invalid &&
+    registrationForm.get('password')?.touched) {
+    <div>
+      @if (registrationForm.get('password')?.errors?.['required']) {
+      <p sui-label suiPointing="above" suiColour="red">
+        Please Enter your Email
+      </p>
+      } @if (registrationForm.get('password')?.errors?.['invalidPassword']) {
+      <p sui-label suiPointing="above" suiColour="red">
+        Invalid Password Entered
+      </p>
+      }
+    </div>
+    }
   </div>
   <div class="two fields">
     <div class="field">
@@ -120,8 +145,8 @@
           type="radio"
           name="isSuccessful"
           formControlName="isSuccessful"
-          [value]="true"
           id="true"
+          [value]="registrationForm.get('isSuccessful')?.value"
           class="ui radio checkbox"
         />
       </div>
@@ -129,9 +154,9 @@
         <label>False</label>
         <input
           type="radio"
-          [value]="registrationForm.get('isSuccessful')?.value.True"
           formControlName="isSuccessful"
           name="isSuccessful"
+          [value]="!registrationForm.get('isSuccessful')?.value"
           id="false"
           class="ui radio checkbox"
         />
@@ -139,7 +164,7 @@
     </div>
   </div>
   <div class="field">
-    <label>Test</label>
+    <label>{{ registrationForm.invalid }}</label>
   </div>
   <button
     sui-button

@@ -10,7 +10,7 @@ import {
 import { NotificationService } from './notification.service';
 import { Router } from '@angular/router';
 import { NgxSemanticModule } from 'ngx-semantic';
-import { PasswordValidator } from './form.validator';
+import { ConfirmPasswordValidator, PasswordValidator } from './form.validator';
 
 @Component({
   selector: 'app-form',
@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
   //     False: true,
   //   },
   // };
-  registrationForm!:FormGroup;
+  registrationForm!: FormGroup;
 
   occupations = [
     { text: 'Frontend Developer', value: 'Frontend Developer' },
@@ -64,15 +64,15 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.countryNames = this.countryService.getCountryNames();
     this.registrationForm = new FormGroup({
-      firstName:new FormControl('',[Validators.required, Validators.min(3)]),
-      lastName:new FormControl('',[Validators.required, Validators.min(3)]),
-      email:new FormControl('',[Validators.required, Validators.email]),
-      password:new FormControl('',[Validators.required,PasswordValidator]),
-      phoneNumber:new FormControl('',[Validators.required]),
-      country:new FormControl('Nigeria',[Validators.required]),
-      occupation:new FormControl('Frontend Developer',[Validators.required]),
-      isSuccessful:new FormControl({True:true, False:false},[Validators.required]),
-    })
+      firstName: new FormControl('', [Validators.required, Validators.min(3)]),
+      lastName: new FormControl('', [Validators.required, Validators.min(3)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, PasswordValidator]),
+      phoneNumber: new FormControl('', [Validators.required]),
+      country: new FormControl('Nigeria', [Validators.required]),
+      occupation: new FormControl('Frontend Developer', [Validators.required]),
+      isSuccessful: new FormControl(true, [Validators.required]),
+    });
   }
 
   load() {
@@ -88,7 +88,10 @@ export class FormComponent implements OnInit {
     this.isLoading = true;
 
     // Success
-    if (this.registrationForm.value.isSuccessful && this.registrationForm.valid) {
+    if (
+      this.registrationForm.value.isSuccessful &&
+      this.registrationForm.valid
+    ) {
       await this.load();
       this.notificationService.showSuccess(
         'Form submitted successfully!',

@@ -7,3 +7,12 @@ export const PasswordValidator = (control: AbstractControl) => {
   }
   return null;
 };
+
+export const ConfirmPasswordValidator = (password:string) => {
+  return (control:AbstractControl) => {
+    if(password != control.value){
+      return {invalidConfirmPassword: true}
+    }
+    return null
+  }
+}
